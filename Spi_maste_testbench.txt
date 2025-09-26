@@ -1,0 +1,37 @@
+`timescale 1ns / 1ps
+module tb;
+     reg clk = 0;
+    reg rst = 0;
+    reg tx_enable = 0;
+    wire mosi;
+    wire cs;
+    wire sclk;
+
+    always #5 clk = ~clk;
+    
+    initial begin
+        rst = 1;
+        repeat(5) @(posedge clk);
+        rst = 0;
+    end
+     initial begin
+        tx_enable = 0;
+        repeat(5) @(posedge clk);
+        tx_enable = 1;
+    end
+
+    fsm_spi dut ( .clk(clk),  .rst(rst), .tx_enable(tx_enable), .mosi(mosi), .cs(cs), .sclk(sclk) );
+
+    initial begin
+        $dumpfile("spi_tb.vcd");    
+      $dumpvars(1);            
+    end
+
+    always @(posedge clk) begin
+        $display( "TIME=%0t ns | rst=%b | tx_enable=%b | mosi=%b | cs=%b | sclk=%b",  $time, rst, tx_enable, mosi, cs, sclk);
+    end
+    initial begin
+        #500;   
+        $finish;
+    end
+    endmodule
