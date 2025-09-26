@@ -45,12 +45,3 @@ The SPI Master cycles through four states: **Idle**, **Start Transmission**, **D
 3. After setup, FSM enters **Data Transmission** (`tx_data`) and shifts 8 bits onto `mosi`.
 4. Once all 8 bits are transmitted → FSM transitions to **End Transmission** (`end_tx`).
 5. After cleanup, FSM returns to **Idle**.
-
-## Example Waveform
-
-A typical transmission sequence looks like:
-
-* `cs` goes low (slave selected).
-* `sclk` toggles for each bit.
-* `mosi` shifts out `10101010`.
-* After 8 bits, `cs` goes high again.
